@@ -29,7 +29,7 @@ data = image_to_string(Image.open(file))
 remove = ["", " ", "  "]
 lines = [line.lower() for line in data.split("\n") if line not in remove]
 
-for line in lines:
+for index, line in enumerate(lines):
     # print(line)
     if line.startswith("sur"):
         tested = re.findall(number_pattern, line)[0]
@@ -61,7 +61,10 @@ for line in lines:
     elif line.startswith("a ce jour") or line.startswith("jour"):
         total_positive = re.findall(number_pattern, line)[0]
         total_recovered = re.findall(number_pattern, line)[1]
-        deaths = re.findall(number_pattern, line)[2]
+        try:
+            deaths = re.findall(number_pattern, line)[2]
+        except IndexError:
+            deaths = re.findall(number_pattern, lines[index+1])[0]
     elif "sous traitement" in line:
         recovering = re.search(number_pattern, line)[0]
     elif re.search(details_pattern, line):
