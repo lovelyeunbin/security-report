@@ -127,6 +127,8 @@ def generate_security_report(file=None):
         "total_recovered": total_recovered,
         "deaths": deaths,
     }
+    for key, value in data.items():
+        data[key] = int(value.strip().replace(" ", ""))
     return data
 
 
@@ -138,5 +140,5 @@ for file in files:
     data = generate_security_report(file)
     date = re.search(r'\d+-\d+-\d+', file)[0]
     data["date"] = date
-    info.append([data])
+    info.append(data)
 print(info)
