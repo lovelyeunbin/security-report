@@ -132,13 +132,17 @@ def generate_security_report(file=None):
     return data
 
 
-security_reports_dir = os.path.join(os.path.expanduser("~"), "senegal_covid_reports")
-files = os.listdir(security_reports_dir)
+def analyse_archived_reports():
+    security_reports_dir = os.path.join(os.path.expanduser("~"), "senegal_covid_reports")
+    files = os.listdir(security_reports_dir)
 
-info = []
-for file in files:
-    data = generate_security_report(file)
-    date = re.search(r'\d+-\d+-\d+', file)[0]
-    data["date"] = date
-    info.append(data)
-print(info)
+    info = []
+    for file in files:
+        data = generate_security_report(file)
+        date = re.search(r'\d+-\d+-\d+', file)[0]
+        data["date"] = date
+        info.append(data)
+    print(info)
+
+
+generate_security_report()
