@@ -121,7 +121,13 @@ def generate_security_report(file=None):
     os.system(f"mv {file} {new_path}")
     os.system(f"open  {new_path}")
 
-    return todays_positive, total_positive, total_recovered, deaths
+    data = {
+        "todays_positive": todays_positive,
+        "total_positive": total_positive,
+        "total_recovered": total_recovered,
+        "deaths": deaths,
+    }
+    return data
 
 
 security_reports_dir = os.path.join(os.path.expanduser("~"), "senegal_covid_reports")
@@ -129,7 +135,8 @@ files = os.listdir(security_reports_dir)
 
 info = []
 for file in files:
+    data = generate_security_report(file)
     date = re.search(r'\d+-\d+-\d+', file)[0]
-    todays_positive, total_positive, total_recovered, deaths = generate_security_report(file)
-    info.append([date, todays_positive, total_positive, total_recovered, deaths])
+    data["date"] = date
+    info.append([data])
 print(info)
